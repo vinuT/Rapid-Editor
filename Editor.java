@@ -37,6 +37,8 @@ public class Editor extends JFrame implements ActionListener
 	JMenuItem COPYEDIT = new JMenuItem("Copy");
 	JMenuItem PASTEDIT = new JMenuItem("Paste");
 	JMenuItem DELETEDIT = new JMenuItem("Delete");
+	JMenuItem SELECTEDIT = new JMenuItem("Select All");
+	JMenuItem TIMEDIT = new JMenuItem("Time/Date");
 
 	JMenuItem FINDSEARCH = new JMenuItem("Find");
 	JMenuItem FINDNEXTSEARCH = new JMenuItem("Find Next");
@@ -47,7 +49,7 @@ public class Editor extends JFrame implements ActionListener
 	JMenuItem COPYPOPUP = new JMenuItem("Copy");
 	JMenuItem PASTEPOPUP = new JMenuItem("Paste");
 	JMenuItem DELETEPOPUP = new JMenuItem("Delete");
-	
+	JMenuItem SELECTPOPUP = new JMenuItem("Select All");	
 
 	UndoManager undo = new UndoManager();
 	UndoAction undoAction = new UndoAction();
@@ -134,6 +136,10 @@ public class Editor extends JFrame implements ActionListener
 		EDIT.add(COPYEDIT);
 		EDIT.add(PASTEDIT);
 		EDIT.add(DELETEDIT);
+		EDIT.addSeparator();
+		EDIT.add(SELECTEDIT);
+		EDIT.add(TIMEDIT);
+		
 		
 		//ADDING MENUITEMS TO THE SEARCH MENU
 		SEARCH.add(FINDSEARCH);
@@ -149,7 +155,9 @@ public class Editor extends JFrame implements ActionListener
 		POPUP.add(COPYPOPUP);
 		POPUP.add(PASTEPOPUP);
 		POPUP.add(DELETEPOPUP);
-		
+		POPUP.addSeparator();
+		POPUP.add(SELECTPOPUP);
+
 		//SETTING SHORTCUT KEYS OF MENUS IN THE MAIN MENUBAR
 		FILE.setMnemonic(KeyEvent.VK_F);
 		EDIT.setMnemonic(KeyEvent.VK_E);
@@ -167,6 +175,8 @@ public class Editor extends JFrame implements ActionListener
 		COPYEDIT.setMnemonic(KeyEvent.VK_C);
 		PASTEDIT.setMnemonic(KeyEvent.VK_P);
 		DELETEDIT.setMnemonic(KeyEvent.VK_L);
+		SELECTEDIT.setMnemonic(KeyEvent.VK_A);
+		TIMEDIT.setMnemonic(KeyEvent.VK_D);
 
 		//SETTING SHORTCUT KEYS OF MENUITEMS IN THE SEARCH MENU
 		FINDSEARCH.setMnemonic(KeyEvent.VK_F);
@@ -180,7 +190,7 @@ public class Editor extends JFrame implements ActionListener
 		COPYPOPUP.setMnemonic(KeyEvent.VK_C);
 		PASTEPOPUP.setMnemonic(KeyEvent.VK_P);
 		DELETEPOPUP.setMnemonic(KeyEvent.VK_D);
-
+		SELECTPOPUP.setMnemonic(KeyEvent.VK_A);
 		//SETTING ACCELERATOR KEYS OF SOME MENUITEMS IN THE EDIT MENU
 		CUTEDIT.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_X,ActionEvent.CTRL_MASK));
 		COPYEDIT.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_C,ActionEvent.CTRL_MASK));
@@ -199,6 +209,8 @@ public class Editor extends JFrame implements ActionListener
 		COPYEDIT.addActionListener(this);
 		PASTEDIT.addActionListener(this);
 		DELETEDIT.addActionListener(this);
+		SELECTEDIT.addActionListener(this);
+		TIMEDIT.addActionListener(this);
 
 		//ADDING LISTENERS TO THE MENUITEMS IN SEARCH MENU
 		FINDSEARCH.addActionListener(this);
@@ -212,7 +224,8 @@ public class Editor extends JFrame implements ActionListener
 		COPYPOPUP.addActionListener(this);
 		PASTEPOPUP.addActionListener(this);
 		DELETEPOPUP.addActionListener(this);
-		
+		SELECTPOPUP.addActionListener(this);
+
 		//ADDING MOUSELISTENER TO RIGHT CLICK FOR THE POPUPLISTENER
 		text.addMouseListener(new MouseAdapter()
 		{
@@ -329,7 +342,22 @@ public class Editor extends JFrame implements ActionListener
 		{
 			text.replaceSelection(null);
 		}
+		//ACTION FOR SELECTALL MENU OPTION OF EDIT MENU AND POPUPMENU
+		if ((e.getSource()==SELECTEDIT)||(e.getSource()==SELECTPOPUP))
+		{
+			text.selectAll();
+		}
 		
+		//ACTION FOR TIME/DATE MENU OPTION OF EDIT MENU 
+		if (e.getSource()==TIMEDIT)
+		{
+			Date currDate;
+			String dd;
+			currDate = new java.util.Date();
+			dd=currDate.toString();
+			text.insert(dd,text.getCaretPosition());
+		}
+
 		//ACTION FOR FIND MENU OPTION OF SEARCH MENU
 		if (e.getSource()==FINDSEARCH)
 		{
