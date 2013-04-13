@@ -268,7 +268,7 @@ public class Editor extends JFrame implements ActionListener
 				  	e.setVisible(true);
 			  		break;} 			    
 		 	   } 
-			  System.out.println("response is :="+response);
+	
 		  } 
 		} ); */
 
